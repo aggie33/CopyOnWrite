@@ -1,3 +1,3 @@
 # CopyOnWrite
 
-A description of this package.
+A helper library to make it easier to implement copy-on-write.
