@@ -11,9 +11,6 @@ public protocol PairReferenceCopyable: ReferenceCopyable where Mutable: PairRefe
     /// The immutable version.
     associatedtype Immutable: PairReferenceCopyable where Immutable.Immutable == Immutable, Immutable.Mutable == Mutable
     
-    /// Creates a mutable copy of `self`.
-    func mutableCopy() -> Mutable
-    
     /// Returns `self` casted as the immutable variety.
     var immutable: Immutable { get }
 }
