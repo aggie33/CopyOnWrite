@@ -8,6 +8,7 @@
 import Foundation
 
 /// A type that implements copy-on-write for `Copied`.
+@dynamicMemberLookup
 public struct CopyOnWrite<Copied: ReferenceCopyable>: CustomStringConvertible {
     private class Box {
         var rawValue: Copied.Mutable
@@ -39,6 +40,15 @@ public struct CopyOnWrite<Copied: ReferenceCopyable>: CustomStringConvertible {
     
     public var description: String {
         String(describing: reading)
+    }
+    
+    public subscript<Property>(dynamicMember member: KeyPath<Copied.Mutable, Property>) -> Property {
+        get { reading[keyPath: member] }
+    }
+    
+    public subscript<Property>(dynamicMember member: ReferenceWritableKeyPath<Copied.Mutable, Property>) -> Property {
+        get { reading[keyPath: member] }
+        set { writing[keyPath: member] = newValue }
     }
 }
 
@@ -102,4 +112,7 @@ public struct CopyOnWritePair<Copied: PairReferenceCopyable>: CustomStringConver
     public var description: String {
         String(describing: immutable)
     }
+    
+    
 }
+
